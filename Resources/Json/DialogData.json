@@ -1,0 +1,85 @@
+{
+    "Dialogs": [
+        {
+            "Dialog_id": 1,
+            "Dialog_Next_id": 1,
+            "Dialog_String": "더미 데이터",
+            "isEnd": false,
+            "isNPC": false,
+            "Portrait": "",
+            "Portrait_Path": ""
+        },
+
+        {
+            "Dialog_id": 1080001,
+            "Dialog_Next_id": 1080002,
+            "Dialog_String": "평범한 돌이다.",
+            "isEnd": false,
+            "isNPC": true,
+            "Portrait": "여주_무표정",
+            "Portrait_Path": "DialogIcon/Portrait/"
+        },
+
+        {
+            "Dialog_id": 1080002,
+            "Dialog_Next_id": 1,
+            "Dialog_String": "왜 여기있는거지?",
+            "isEnd": true,
+            "isNPC": true,
+            "Portrait": "여주_당황",
+            "Portrait_Path": "DialogIcon/Portrait/"
+        },
+
+
+
+        {
+            "Dialog_id": 1380001,
+            "Dialog_Next_id": 1380002,
+            "Dialog_String": "컴퓨터가 있다.",
+            "isEnd": false,
+            "isNPC": true,
+            "Portrait": "여주_당황",
+            "Portrait_Path": "DialogIcon/Portrait/"
+        },
+
+        {
+            "Dialog_id": 1380002,
+            "Dialog_Next_id": 3080001,
+            "Dialog_String": "비밀번호를 입력해야하네..",
+            "isEnd": false,
+            "isNPC": true,
+            "Portrait": "여주_당황",
+            "Portrait_Path": "DialogIcon/Portrait/"
+        },
+
+        {
+            "Dialog_id": 1380003, 
+            "Dialog_Next_id": 1380005,
+            "Dialog_String": "정답이다!",
+            "isEnd": false,
+            "isNPC": true,
+            "Portrait": "여주_웃음",
+            "Portrait_Path": "DialogIcon/Portrait/"
+        },
+
+        {
+            "Dialog_id": 1380004,
+            "Dialog_Next_id": 1,
+            "Dialog_String": "잘못된 비밀번호야.",
+            "isEnd": true,
+            "isNPC": true,
+            "Portrait": "여주_무표정",
+            "Portrait_Path": "DialogIcon/Portrait/"
+        },
+
+        {
+            "Dialog_id": 1380005,
+            "Dialog_Next_id": 1,
+            "Dialog_String": "대충 힌트",
+            "isEnd": true,
+            "isNPC": true,
+            "Portrait": "여주_당황",
+            "Portrait_Path": "DialogIcon/Portrait/"
+        }
+    ]
+}
