@@ -1,8 +1,8 @@
 {
     "Dialogs": [
         {
-            "Dialog_id": 1,
-            "Dialog_Next_id": 1,
+            "Dialog_Id": 1,
+            "Dialog_Next_Id": 1,
             "Dialog_String": "더미 데이터",
             "isEnd": false,
             "isNPC": false,
@@ -11,8 +11,8 @@
         },
 
         {
-            "Dialog_id": 1080001,
-            "Dialog_Next_id": 1080002,
+            "Dialog_Id": 1080001,
+            "Dialog_Next_Id": 1080002,
             "Dialog_String": "평범한 돌이다.",
             "isEnd": false,
             "isNPC": true,
@@ -21,8 +21,8 @@
         },
 
         {
-            "Dialog_id": 1080002,
-            "Dialog_Next_id": 1,
+            "Dialog_Id": 1080002,
+            "Dialog_Next_Id": 1,
             "Dialog_String": "왜 여기있는거지?",
             "isEnd": true,
             "isNPC": true,
@@ -33,8 +33,8 @@
 
 
         {
-            "Dialog_id": 1380001,
-            "Dialog_Next_id": 1380002,
+            "Dialog_Id": 1380001,
+            "Dialog_Next_Id": 1380002,
             "Dialog_String": "컴퓨터가 있다.",
             "isEnd": false,
             "isNPC": true,
@@ -43,8 +43,8 @@
         },
 
         {
-            "Dialog_id": 1380002,
-            "Dialog_Next_id": 3080001,
+            "Dialog_Id": 1380002,
+            "Dialog_Next_Id": 3080001,
             "Dialog_String": "비밀번호를 입력해야하네..",
             "isEnd": false,
             "isNPC": true,
@@ -53,8 +53,8 @@
         },
 
         {
-            "Dialog_id": 1380003, 
-            "Dialog_Next_id": 1380005,
+            "Dialog_Id": 1380003, 
+            "Dialog_Next_Id": 1380005,
             "Dialog_String": "정답이다!",
             "isEnd": false,
             "isNPC": true,
@@ -63,8 +63,8 @@
         },
 
         {
-            "Dialog_id": 1380004,
-            "Dialog_Next_id": 1,
+            "Dialog_Id": 1380004,
+            "Dialog_Next_Id": 1,
             "Dialog_String": "잘못된 비밀번호야.",
             "isEnd": true,
             "isNPC": true,
@@ -73,9 +73,9 @@
         },
 
         {
-            "Dialog_id": 1380005,
-            "Dialog_Next_id": 1,
-            "Dialog_String": "대충 힌트",
+            "Dialog_Id": 1380005,
+            "Dialog_Next_Id": 2080001,
+            "Dialog_String": "경비 아저씨의 버려진 라이터를 획득했다.",
             "isEnd": true,
             "isNPC": true,
             "Portrait": "여주_당황",

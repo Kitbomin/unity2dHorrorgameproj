@@ -1,0 +1,13 @@
+{
+    "Pcs": [
+        {
+            "Pc_Id": 3080001,
+            "Pc_Password": "1017", 
+            "Pc_Success_Id": 1380003,
+            "Pc_Fail_Id": 1380004,
+            "Pc_Clear_Id": 0,
+            "Pc_Clear": false,
+            "Pc_Image_Path": "Pc/Pc_기본"
+        }
+    ]
+}
