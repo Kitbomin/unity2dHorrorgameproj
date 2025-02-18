@@ -1,0 +1,311 @@
+using System.Collections;
+using UnityEngine;
+
+public class PlayerController : Monohaviour
+{
+    // public GameManager gameMG;
+    // public Inventory InvMG;
+
+    private Rigidbody2D rigid;
+    private Animator anime;
+    private SpriteRenderer spriter;
+    private GameObject scanObj;
+
+    private Vector3 dirVec;
+    private bool isHorizonMove;
+    public float Speed = 3;
+
+    private float h;
+    private float v;
+
+
+    private void Awake()
+    {
+        boxCollider = GetComponent<BoxCollider2D>();
+        animator = GetComponent<Animator>();
+        rigid = GetComponent<Rigidbody2D>();
+        rigid = GetComponent<Rigidbody2D>();
+        inventory = FindFirstObjectByType<InventoryManager>();
+        StartCoroutine(MoveCoroutine());
+
+    }
+
+    private void Update()
+    {
+         if (canMove)
+        {
+            if (Input.GetAxisRaw("Horizontal") != 0 || Input.GetAxisRaw("Vertical") != 0)
+            {
+                canMove = false;
+                StartCoroutine(MoveCoroutine());
+            }
+        }
+
+        HandlePickUp();
+
+        enemiesInRange.RemoveWhere(enemy => enemy == null || Vector2.Distance(transform.position, enemy.transform.position) > attackRange);
+
+        HandleAttack();
+
+    }
+
+    private void FixedUpdate()
+    {
+        rigid.linearVelocity = movement * speed;
+
+        enemiesInRange.RemoveWhere(enemy => enemy == null || Vector2.Distance(transform.position, enemy.transform.position) > attackRange);
+    }
+
+    //무빙
+
+    private Vector3 vector;
+    private Vector2 movement;
+    public float runSpeed;
+    private float applyRunSpeed;
+    private bool applyRunFlag = false;
+    public int walkCount;
+    private int currentWalkCount;
+    public int walkCount;
+    private int currentWalkCount;
+    private BoxCollider2D boxCollider;
+    public LayerMask layerMask;
+
+
+    IEnumerator MoveCoroutine()
+    {
+        while(Input.GetAxisRaw("Vertical") !=0 || Input.GetAxisRaw("Horizontal") !=0)
+        {
+            if (Input.GetKey(KeyCode.LeftShift))
+            {
+                applyRunSpeed = runSpeed;
+                applyRunFlag = true;
+            }
+            else
+            {
+                applyRunSpeed = 0;
+                applyRunFlag = false;
+
+            }
+
+            vector.Set(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"), transform.position.z);
+
+            if (vector.x != 0)
+                vector.y = 0;
+
+            animator.SetFloat("DirX", vector.x); //애니메이션
+            animator.SetFloat("DirY", vector.y); //애니메이션
+
+            RaycastHit2D hit;
+
+            Vector2 start = transform.position;
+            Vector2 end = start + new Vector2(vector.x * speed * walkCount, vector.y * speed * walkCount);
+
+            boxCollider.enabled = false;
+            hit = Physics2D.Linecast(start, end, layerMask);
+            boxCollider.enabled = true;
+
+            if (hit.transform != null)
+                break;
+
+            animator.SetBool("Running", true); //애니메이션
+
+            while (currentWalkCount < walkCount)
+            {
+                if (vector.x != 0)
+                {
+                    transform.Translate(vector.x * (speed + applyRunSpeed), 0, 0);
+                }
+                else if (vector.y != 0)
+                {
+                    transform.Translate(0, vector.y * (speed + applyRunSpeed), 0);
+                }
+                if (applyRunFlag)
+                    currentWalkCount++;
+                currentWalkCount++;
+                yield return new WaitForSeconds(0.01f);
+            }
+            currentWalkCount = 0;
+
+        }
+
+        animator.SetBool("Running", false); //애니메이션
+        canMove = true;
+
+
+
+    //애니메이션
+
+    //공격
+
+    public float attackRange = 2f; public LayerMask enemyLayer; 
+    private HashSet<Collider2D> enemiesInRange = new HashSet<Collider2D>();
+    public IReadOnlyCollection<Collider2D> EnemiesInRange => enemiesInRange;
+
+    void HandleAttack()
+    {
+        if (enemiesInRange.Count > 0 && Input.GetKeyDown(interactionKey))
+        {
+            foreach (Collider2D enemyCollider in enemiesInRange)
+            {
+                Enemy enemy = enemyCollider.GetComponent<Enemy>();
+
+                if (enemy == null)
+                {
+                    Debug.LogError("Enemy 컴포넌트를 찾을 수 없습니다!");
+                }
+
+                if (enemy != null)
+                {
+                    enemy.TakeDamage(1);
+                    Debug.Log($"{enemy.name}에게 1 데미지를 입힘. 현재 적의 체력: {enemy.Health}");
+
+                    if (enemy.Health <= 0)
+                    {
+                        Destroy(enemy.gameObject);
+                        Debug.Log($"{enemy.name} 처치 완료!");
+                    }
+                }
+            }
+        }
+    }
+
+    void OnDrawGizmosSelected()
+    {
+        // 공격 거리를 표시하는 빨간색 원
+        Gizmos.color = Color.red;
+        Gizmos.DrawWireSphere(transform.position, attackRange);
+    }
+
+
+    //인터렉션
+
+    public KeyCode interactionKey = KeyCode.E;
+    private bool canInteract = false;
+
+    void OnTriggerEnter2D(Collider2D other)
+    {
+
+        if (other.CompareTag("Interactable"))
+        {
+            canInteract = true;
+            interactableObject = other.gameObject;
+        }
+
+        if (other.CompareTag("Pickable")) //아이템 먹기
+        {
+            canPickup = true;
+            ItemObject = other.gameObject;
+        }
+
+        if (other.CompareTag("Enemy")) //공격
+        {
+            if (!enemiesInRange.Contains(other))
+            {
+                enemiesInRange.Add(other);
+                Debug.Log($"적 감지됨: {other.gameObject.name}, 현재 감지된 적 개수: {enemiesInRange.Count}");
+            }
+
+        }
+    }
+
+    void OnTriggerExit2D(Collider2D other)
+    {
+        if (other.CompareTag("Interactable"))
+        {
+            canInteract = false;
+            interactableObject = null;
+        }
+
+        if (other.CompareTag("Pickable")) //아이템 먹기
+        {
+            canPickup = false;
+            ItemObject = null;
+        }
+
+        if (other.CompareTag("Enemy") && enemiesInRange.Contains(other)) //공격
+        {
+            
+        }
+    }
+
+
+    //맵
+
+    //오브젝트 스캔
+
+    //아이템 먹기
+
+    private InventoryManager inventory;
+    private bool canPickup = false;
+
+    public class InventoryData
+    {
+        public List<InventoryItem> items; 
+
+        public InventoryData()
+        {
+            items = new List<InventoryItem>();
+        }
+
+        public void AddItem(int id)
+        {
+            if (!items.Exists(item => item.id == id))
+            {
+                items.Add(new InventoryItem(id, true)); 
+                Debug.Log($"{id}를 획득했다");
+            }
+            else
+            {
+                Debug.Log($"{id} 아이템은 이미 존재합니다.");
+            }
+        }
+
+        public bool CanPickItem(int id)
+        {
+            InventoryItem item = items.Find(i => i.id == id);
+            return item != null && item.canPick;
+        }
+
+        
+        public void RemoveItem(int id) // 아이템 쓰기
+        {
+            InventoryItem item = items.Find(i => i.id == id);
+            if (item != null)
+            {
+                items.Remove(item); 
+                Debug.Log($"{id}를 사용했다. 사라졌다.");
+            }
+            else
+            {
+                Debug.Log($"{id} 아이템을 찾을 수 없습니다.");
+            }
+        }
+    }
+
+
+    void HandleInteraction()
+    {
+        if (canInteract && Input.GetKeyDown(interactionKey) && interactableObject != null)
+        {
+        
+            IInteractable interactable = interactableObject.GetComponent<IInteractable>();
+            if (interactable != null)
+            {
+                interactable.Interact(inventory); 
+            }
+        }
+    }
+
+    void HandlePickUp()
+    {
+        if (canPickup && Input.GetKeyDown(interactionKey) && ItemObject != null)
+        {
+            ItemObject.GetComponent<ItemPick>()?.Pickable();
+        }
+    }
+
+
+    //아이템 쓰기
+
+    //관련 js 연결?
+}
