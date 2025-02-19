@@ -97,10 +97,11 @@ public class Inventory : MonoBehaviour
 
         switch (selectedTab)
         {
+
             case 0:
                 for (int i = 0; i < inventoryItemList.Count; i++)
                 {
-                    if (ItemType.Item == inventoryItemList[i].Item_Type)
+                    if (inventoryItemList[i].Item_Type == "Item")
                         inventoryTabList.Add(inventoryItemList[i]);
                 }
                 break;
@@ -108,7 +109,7 @@ public class Inventory : MonoBehaviour
             case 1:
                 for (int i = 0; i < inventoryItemList.Count; i++)
                 {
-                    if (ItemType.Key_Item == inventoryItemList[i].Item_Type)
+                    if (inventoryItemList[i].Item_Type == "Key_Item")
                         inventoryTabList.Add(inventoryItemList[i]);
                 }
                 break;
@@ -116,7 +117,7 @@ public class Inventory : MonoBehaviour
             case 2:
                 for (int i = 0; i < inventoryItemList.Count; i++)
                 {
-                    if (ItemType.Post_it == inventoryItemList[i].Item_Type)
+                    if (inventoryItemList[i].Item_Type == "Post_it")
                         inventoryTabList.Add(inventoryItemList[i]);
                 }
                 break;

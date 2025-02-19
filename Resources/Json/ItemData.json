@@ -9,6 +9,17 @@
             "Next_Id": 0,
             "Item_Useable": true,
             "Item_Icon_Path": "ItemIcon/라이터"
+        },
+
+        {
+            "Item_Id": 2080002,
+            "Item_Name": "사파이어",
+            "Item_Description": "정체모를 사파이어다.",
+            "Item_Type": "Key_Item",
+            "Item_Count": 0,
+            "Next_Id": 0,
+            "Item_Useable": true,
+            "Item_Icon_Path": "ItemIcon/10001"
         }
     ]
 }

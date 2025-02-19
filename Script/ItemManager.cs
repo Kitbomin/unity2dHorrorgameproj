@@ -1,6 +1,9 @@
+using System;
 using System.Collections.Generic;
 using System.IO;
+using UnityEditor;
 using UnityEngine;
+using UnityEngine.UI;
 
 [System.Serializable]
 public enum ItemType { Item, Key_Item, Post_it }
@@ -11,7 +14,7 @@ public class ItemData
     public int Item_Id;
     public string Item_Name;
     public string Item_Description;
-    public ItemType Item_Type;
+    public string Item_Type;
     public int Item_Count;
     public int Next_Id;
     public bool Item_Useable;
@@ -31,8 +34,11 @@ public class ItemManager : MonoBehaviour
     public Dictionary<int, Sprite> Item_Icons = new Dictionary<int, Sprite>();
     public Dictionary<int, ItemData> Item_Dict = new Dictionary<int, ItemData>();
 
+    public IdController idController;
     public DialogManager dialogManager;
     public Hero player;
+    public GameObject ItemImage_Panel;
+    public Image ItemImage;
     private void Awake()
     {
         if (instance == null)
@@ -68,37 +74,75 @@ public class ItemManager : MonoBehaviour
     {
         if (Item_Dict.ContainsKey(Id))
         {
-            ItemType itemType = Item_Dict[Id].Item_Type;
-
-            if (Inventory.inventoryItemList.Contains(Item_Dict[Id]))
-                Item_Dict[Id].Item_Count++;
-            else
-            {
-                Inventory.inventoryItemList.Add(Item_Dict[Id]);
-                Item_Dict[Id].Item_Count++;
-            }
-
-            if (player.scanObj != null)
-                if (player.scanObj.GetComponent<ObjData>().isItem)
-                {
-                    player.scanObj.SetActive(false);
-                }
-
-                else
-                {
-                    player.scanObj.GetComponent<ObjData>().Id = Item_Dict[Id].Next_Id;
-                }
+            ItemType itemType = (ItemType)Enum.Parse(typeof(ItemType), Item_Dict[Id].Item_Type);
 
             if (itemType == ItemType.Item)
             {
-                GameManager.Next_Id = Item_Dict[Id].Next_Id;
+                Get_Item(Id);
+            }
 
-                dialogManager.isDialogOutput = false;
-                dialogManager.DialogPanel.SetActive(dialogManager.isDialogOutput);
+            else if (itemType == ItemType.Key_Item)
+            {
+                if (ItemImage.sprite == Item_Icons[Id])
+                {
+                    ItemImage_Panel.SetActive(false);
+                    ItemImage.sprite = null;
+                    Get_Item(Id);
+                    idController.IdControll(GameManager.Next_Id);
+                }
+                else
+                {
+                    dialogManager.DialogPanel.SetActive(false);
+                    ItemImage_Panel.SetActive(true);
+                    ItemImage.sprite = Item_Icons[Id];
+                }
+            }
 
-                GameManager.isAction = false;
-
+            else if ( itemType == ItemType.Post_it)
+            {
+                if (ItemImage.sprite == Item_Icons[Id])
+                {
+                    ItemImage_Panel.SetActive(false);
+                    ItemImage.sprite = null;
+                    Get_Item(Id);
+                    idController.IdControll(GameManager.Next_Id);
+                }
+                else
+                {
+                    dialogManager.DialogPanel.SetActive(false);
+                    ItemImage_Panel.SetActive(true);
+                    ItemImage.sprite = Item_Icons[Id];
+                }
             }
         }
     } // Item È¹µæ ¹× ºÐ·ù
+
+    void Get_Item(int Id)
+    {
+        if (Inventory.inventoryItemList.Contains(Item_Dict[Id]))
+            Item_Dict[Id].Item_Count++;
+        else
+        {
+            Inventory.inventoryItemList.Add(Item_Dict[Id]);
+            Item_Dict[Id].Item_Count++;
+        }
+
+        if (player.scanObj != null)
+            if (player.scanObj.GetComponent<ObjData>().isItem)
+            {
+                player.scanObj.SetActive(false);
+            }
+
+            else
+            {
+                player.scanObj.GetComponent<ObjData>().Id = Item_Dict[Id].Next_Id;
+            }
+
+        GameManager.Next_Id = Item_Dict[Id].Next_Id;
+
+        dialogManager.isDialogOutput = false;
+        dialogManager.DialogPanel.SetActive(dialogManager.isDialogOutput);
+
+        GameManager.isAction = false;
+    }
 }

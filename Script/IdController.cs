@@ -19,12 +19,12 @@ public class IdController : MonoBehaviour
 
     public void IdControll(int Id, ObjData objData = null)
     {
-        if (Id.ToString()[0] == '1' || dialogManager.isTyping) // DIalog
+        if (Id.ToString()[0] == '1' || dialogManager.isTyping && !itemManager.ItemImage_Panel.activeSelf) // DIalog
         {
             dialogManager.Dialog(Id, objData);
         }
 
-        else if (Id.ToString()[0] == '2') // Item
+        else if (Id.ToString()[0] == '2' || itemManager.ItemImage_Panel.activeSelf) // Item
         {
             itemManager.Item(Id);
         }
@@ -50,7 +50,5 @@ public class IdController : MonoBehaviour
 
         else
             GameManager.Progress_ObjData = objData;
-
-        Debug.Log(GameManager.Progress_Id);
     } // Id에 따라 Dialog, Item, Pc 등의 함수로 분류
 }

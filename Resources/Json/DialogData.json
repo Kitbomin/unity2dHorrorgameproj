@@ -80,6 +80,16 @@
             "isNPC": true,
             "Portrait": "여주_당황",
             "Portrait_Path": "DialogIcon/Portrait/"
+        },
+
+        {
+            "Dialog_Id": 1380006,
+            "Dialog_Next_Id": 2080002,
+            "Dialog_String": "버려진 사파이어를 발견했다.",
+            "isEnd": true,
+            "isNPC": true,
+            "Portrait": "여주_웃음",
+            "Portrait_Path": "DialogIcon/Portrait/"
         }
     ]
 }

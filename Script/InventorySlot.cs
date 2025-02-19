@@ -19,8 +19,9 @@ public class InventorySlot : MonoBehaviour
         if (itemManager.Item_Icons[_item.Item_Id] != null)
             icon.sprite = itemManager.Item_Icons[_item.Item_Id];
 
-        if (_item.Item_Type == ItemType.Item)
+        if (_item.Item_Type == "Item")
         {
+            Debug.Log(_item.Item_Type);
             if (_item.Item_Count > 0)
                 item_Count_Text.text = ": " + _item.Item_Count.ToString();
             else
