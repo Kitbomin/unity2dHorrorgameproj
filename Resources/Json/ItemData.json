@@ -1,0 +1,14 @@
+{
+    "Items": [
+        {
+            "Item_Id": 2080001,
+            "Item_Name": "경비 아저씨의\n버려진 라이터",
+            "Item_Description": "경비 아저씨의 라이터다.\n왜 여기있는지는 모른다.",
+            "Item_Type": "Item",
+            "Item_Count": 0,
+            "Next_Id": 0,
+            "Item_Useable": true,
+            "Item_Icon_Path": "ItemIcon/라이터"
+        }
+    ]
+}
